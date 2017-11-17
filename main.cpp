@@ -2,7 +2,7 @@
 
 int myRank;
 int nbTasks;
-int test2;
+int test4;
 
 int main(int argc, char* argv[])
 {
