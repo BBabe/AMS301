@@ -1,5 +1,4 @@
 #include "headers.hpp"
-#include <unistd.h>
 
 extern int myRank;
 extern int nbTasks;
@@ -14,9 +13,9 @@ void jacobi(SpMatrix& A, Vector& b, Vector& u, Mesh& m, double tol, int maxit)
     printf("== jacobi\n");
   
   // Compute the solver matrices
-  Vector Mdiag(A.rows()); // de taille le nombre de lignes de A
+  Vector Mdiag(A.rows());
   SpMatrix N(A.rows(), A.cols());
-  for(int k = 0; k < A.outerSize(); ++k){  // max(nb_row,nb_col) -> parcourt soit lignes, soit colonnes
+  for(int k = 0; k < A.outerSize(); ++k){
     for(SpMatrix::InnerIterator it(A,k); it; ++it){
       if(it.row() == it.col())
         Mdiag(it.row()) = it.value();
@@ -27,13 +26,9 @@ void jacobi(SpMatrix& A, Vector& b, Vector& u, Mesh& m, double tol, int maxit)
   exchangeAddInterfMPI(Mdiag, m);
   
   // Jacobi solver
-  /*Vector residu      = b - A*u;
-  exchangeAddInterfMPI(residu, m);
-  double residuNorm0 = sqrt(residu.dot(residu.transpose()));*/
-  double residuNorm0 = 1;
-  double residuNorm  = tol*residuNorm0 + 2;  // au cas où le tol initial soit négatif ...
+  double residuNorm = tol*2;
   int it = 0;
-  while (residuNorm > tol * residuNorm0 && it < maxit){
+  while (residuNorm > tol && it < maxit){
     
     // Compute N*u
     Vector Nu = N*u;
@@ -42,16 +37,12 @@ void jacobi(SpMatrix& A, Vector& b, Vector& u, Mesh& m, double tol, int maxit)
     // Update field
     for(int n=0; n<m.nbOfNodes; n++)
       u(n) = 1/Mdiag(n) * (Nu(n) + b(n));
-
     
     // Update residual and iterator
-    /*residu = b - A*u;
-    exchangeAddInterfMPI(residu, m);
-    residuNorm = sqrt(residu.dot(residu.transpose()));
     if((it % 10) == 0){
       if(myRank == 0)
-        printf("\r   %i %e \n", it, residuNorm);
-    }*/
+        printf("\r   %i %e", it, residuNorm);
+    }
     it++;
   }
   

@@ -161,7 +161,7 @@ void buildLocalNumbering(Mesh& m)
   }
   
   coordsMyRank.conservativeResize(nNodeLoc,3);
-  elemNoRep.conservativeResize(nNodeLoc);
+  //elemNoRep.conservativeResize(nNodeLoc);
   linNumMyRank.conservativeResize(nLinLoc);
   triNumMyRank.conservativeResize(nTriLoc);
   linNodesMyRank.conservativeResize(nLinLoc,2);
@@ -170,7 +170,7 @@ void buildLocalNumbering(Mesh& m)
   m.nbOfNodes = nNodeLoc;
   m.nbOfLin = nLinLoc;
   m.nbOfTri = nTriLoc;
-  m.elemNoRep = elemNoRep;
+  //m.elemNoRep = elemNoRep;
   
   m.coords = coordsMyRank;
   m.linNum = linNumMyRank;

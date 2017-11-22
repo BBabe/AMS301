@@ -9,6 +9,7 @@ extern int nbTasks;
 
 void readMsh(Mesh& m, string fileName)
 {
+  m.elemNoRep.resize(m.nbOfNodes);
   if(myRank == 0)
     printf("== read mesh file\n");
   

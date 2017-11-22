@@ -31,7 +31,7 @@ void jacobi(SpMatrix& A, Vector& b, Vector& u, Mesh& m, double tol, int maxit)
   exchangeAddInterfMPI(residu, m);
   double residuNorm0 = sqrt(residu.dot(residu.transpose()));*/
   double residuNorm0 = 1;
-  double residuNorm  = tol*residuNorm0 + 2;  // au cas où le tol initial soit négatif ...
+  double residuNorm  = tol*residuNorm0 + 1;  // au cas où le tol initial soit négatif ...
   int it = 0;
   while (residuNorm > tol * residuNorm0 && it < maxit){
     

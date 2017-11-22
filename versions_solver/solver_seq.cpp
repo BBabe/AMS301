@@ -27,11 +27,10 @@ void jacobi(SpMatrix& A, Vector& b, Vector& u, Mesh& m, double tol, int maxit)
   exchangeAddInterfMPI(Mdiag, m);
   
   // Jacobi solver
-  /*Vector residu      = b - A*u;
-  exchangeAddInterfMPI(residu, m);
-  double residuNorm0 = sqrt(residu.dot(residu.transpose()));*/
-  double residuNorm0 = 1;
-  double residuNorm  = tol*residuNorm0 + 2;  // au cas où le tol initial soit négatif ...
+  Vector residu      = b - A*u;
+  double residuNorm0 = 0;
+  for (int i = 0 ; i < m.nbOfNodes ; i++) residuNorm0 += pow(residu(i),2);
+  double residuNorm  = tol*residuNorm0 + 1;  // au cas où le tol initial soit négatif ...
   int it = 0;
   while (residuNorm > tol * residuNorm0 && it < maxit){
     
@@ -45,13 +44,13 @@ void jacobi(SpMatrix& A, Vector& b, Vector& u, Mesh& m, double tol, int maxit)
 
     
     // Update residual and iterator
-    /*residu = b - A*u;
-    exchangeAddInterfMPI(residu, m);
-    residuNorm = sqrt(residu.dot(residu.transpose()));
+    residu = b - A*u;
+    residuNorm = 0;
+    for (int i=0; i<m.nbOfNodes; i++) residuNorm += pow(residu(i),2);
     if((it % 10) == 0){
       if(myRank == 0)
         printf("\r   %i %e \n", it, residuNorm);
-    }*/
+    }
     it++;
   }
   

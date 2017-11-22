@@ -65,7 +65,6 @@ int main(int argc, char* argv[])
       L2Err += MuErr(i)*uErr(i);
     }
   }
-  printf("\r Petite norme L2 = %e \n", L2Err);
   double L2Err_glob;
   MPI_Reduce(&L2Err, &L2Err_glob, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
   if(myRank == 0) 

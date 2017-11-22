@@ -32,7 +32,7 @@ struct Mesh
   // Infos about elements
   int nbOfLin;                // number of lines (belonging to the boundary of the domain)
   int nbOfTri;                // number of triangles
-  IntVector elemNoRep;        // 1 si pas de processeur de rang > contient le sommet local, -1 sion
+  Vector elemNoRep;        // 1 si pas de processeur de rang > contient le sommet local, -1 sion
   IntVector linNum;           // gmsh numerbing of lines      (Size: nbOfLin)
   IntVector triNum;           // gmsh numerbing of triangles  (Size: nbOfTri)
   IntMatrix linNodes;         // nodes to each lines          (Size: nbOfLin x 2)
